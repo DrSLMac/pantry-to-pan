@@ -188,6 +188,7 @@ function displayFiltered(repo) {
 
 function saveThisRecipe() {
     //savedRecipes.push()
+    user.toCook();
     //recipe information added to array
     //set this.id to date.time
     //
