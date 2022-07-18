@@ -37,8 +37,14 @@ const recipeTile = document.querySelector(".recipe-tile");
 const tileImage = document.getElementById("tileImage");
 const recipePage = document.querySelector(".recipe-page");
 const checkboxes = document.querySelectorAll("input[type='checkbox']");
+const searchBar = document.querySelector("#recipe-search")
+const searchButton = document.querySelector("#search-button")
+const searchInput = document.querySelector(".input")
+
+
+
 const saveThisRecipeBtn = document.querySelector(".save-this-recipe");
-const breakfastCategory = document.getElementById("breakfast"); 
+const breakfastCategory = document.getElementById("breakfast");
 const lunchCategory = document.getElementById("lunch");
 const dinnerCategory = document.getElementById("dinner");
 
@@ -54,6 +60,9 @@ checkboxes.forEach((box) => {
   box.addEventListener("change", () => displayFiltered(recipeRepo));
 });
 recipePage.addEventListener("click", viewRecipe);
+searchButton.addEventListener("click", filterByName);
+searchInput.addEventListener("input", getInput);
+
 
 // 👇🏽 Filter recipes by tag
 function recipeByCategory(tag) {
@@ -186,6 +195,24 @@ function displayFiltered(repo) {
 }
 
 
+function getInput() {
+let value = searchBar.value
+return value
+}
+function filterByName() {
+  let input = getInput()
+  let result = recipeRepo.filterName(input)
+  if (input && input.trim().length > 0 && (result)) {
+    showAllRecipes()
+    recipeTile.innerHTML = ''
+    recipeTile.innerHTML += ` <input type="image" src="${result.image}" id="${result.id}"/><h3>"${result.name}"</h3>`
+  } else {
+    alert("No results found")
+  }
+  return result
+}
+
+
 function saveThisRecipe() {
     //savedRecipes.push()
     user.toCook();
@@ -204,6 +231,7 @@ function saveThisRecipe() {
 //     //allRecipeGrid.innerHTML += recipeTile;
 //     //return newRecipeCard;
 //   }
+
 
 /*
 // As a user, I should be able to add/remove a recipe to a list of recipes to cook
