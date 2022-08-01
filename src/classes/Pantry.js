@@ -1,5 +1,6 @@
 class Pantry {
   constructor(user) {
+    // this.allIngredients = user.ingredientsDataSet;
     this.ingredientsOwned = user.pantry;
     this.ingredientsToBuy = [];
   }
@@ -22,6 +23,29 @@ class Pantry {
     }, []);
     return ingToBuy;
   }
+
+  //   returnAllAvailableIngredients(ingredients) {
+  //     console.log("ingredients : ", ingredients);
+  //     console.log("this.allIngredients : ", this.allIngredients);
+  //   }
+
+  //   addIngredientsToPantry() {
+  //     console.log(this.allIngredients);
+  //   }
+
+  //   addIngredient(ingredientID, ingredientModification) {
+  //     let ingredient = this.ingredients.find((ingredient) => {
+  //       return ingredient.id === ingredientID;
+  //     });
+  //     if (ingredient) {
+  //       let have = ingredient.amount;
+  //       let add = ingredientModification;
+  //       ingredient.updateAmount(have + add);
+  //     }
+  //     if (!ingredient) {
+  //       this.addIngredientObjects(ingredientObject);
+  //     }
+  //   }
 }
 
 export default Pantry;

@@ -14,7 +14,31 @@ let recipeData;
 let usersData;
 let allIngredientsData;
 let recipes;
+// const user = new User({ name: "Elana", id: 1 });
+// const pantry = new Pantry(user);
+// let recipeData;
+// let usersData;
+// let ingredientsData;
 
+// This is the promise all for running on the local server
+// Promise.all([
+//   fetchData("ingredients"),
+//   fetchData("recipes"),
+//   fetchData("users"),
+// ]).then(([ingredientsData, recipeData, userData]) => {
+//   IngredientsDATA = ingredientsData;
+//   allRecipes = recipeData.map((recipe) => {
+//     return new Recipe(recipe, ingredientsData);
+//   });
+
+//   recipeRepository = new RecipeRepository(allRecipes);
+//   User = new User(userData[0], recipeRepository);
+
+//   allRecipes.forEach((recipe) => {
+//     createRecipeCard(recipe);
+//   });
+//   hide(homeButton);
+// });
 
 //FETCH CALLS
 function initializeData() {
@@ -25,9 +49,14 @@ function initializeData() {
         recipe.getIngredientsDetails(ingredientsData)
       );
       recipeRepo = new RecipeRepository(recipes);
+      console.log(recipeRepo);
       const randUser = usersData[Math.floor(Math.random() * usersData.length)];
+      console.log(randUser);
       user = new User(randUser);
+      console.log(user);
       pantry = new Pantry(user);
+      console.log(pantry);
+      console.log("all", ingredientsData);
       allIngredientsData = ingredientsData;
     }
   );
@@ -64,6 +93,7 @@ const savedRecipesView = document.querySelector(".saved-recipes");
 const pantryBtn = document.querySelector("#pantry-button");
 const pantryView = document.querySelector(".pantry-page");
 const recipeTiles = document.querySelector(".recipe-tile-grid");
+// const individualRecipeTile = document.querySelector(".recipe-tile");
 const recipePage = document.querySelector(".recipe-page");
 const checkboxes = document.querySelectorAll("input[type='checkbox']");
 const searchBar = document.querySelector("#recipe-search");
@@ -71,7 +101,9 @@ const searchButton = document.querySelector("#search-button");
 const searchInput = document.querySelector(".input");
 
 // ingredient incrementor query selectors
-const ingredientBtns = document.querySelectorAll("iingredient-button");
+const ingredientBtns = document.querySelectorAll(
+  "iingredient-button"
+);
 const minusBtn = document.querySelector(".minus");
 const plusBtn = document.querySelector(".plus");
 const ingredientLbl = document.querySelector(".ingredient-label");
@@ -108,15 +140,13 @@ function removeAllChildNodes(parent) {
   }
 }
 
-function view(elements) {
-  elements.forEach(view => view.classList.remove("hidden"))
+function view(element) {
+  element.classList.remove("hidden");
 }
 
-function hide(elements) {
-  elements.forEach(view => view.classList.add("hidden"))
+function hide(element) {
+  element.classList.add("hidden");
 }
-
-
 
 function showRecipeDetails() {
   const recipeTitles = document.querySelectorAll(".recipe-image");
@@ -157,19 +187,29 @@ function getRandomIndex(arr) {
 
 // HOME SCREEN
 function showHomeScreen() {
-  const hideHome = [filterPanel, savedRecipesView, homeBtn, recipePage, pantryView];
-  const showHome = [homeView, allRecipeBtn, savedRecipeBtn, pantryBtn];
-  hide(hideHome);
-  view(showHome);
+  hide(filterPanel);
+  hide(savedRecipesView);
+  hide(homeBtn);
+  hide(recipePage);
+  hide(pantryView);
+  view(homeView);
+  view(allRecipeBtn);
+  view(savedRecipeBtn);
+  view(pantryBtn);
 }
 showHomeScreen();
 
 // HOMEPAGE PANEL
 function showBreakfast() {
-  const hideBreakfastPage =[homeView, allRecipeBtn, savedRecipesView, recipePage, pantryView];
-  const showBreakfastPage =[homeBtn, filterPanel, savedRecipeBtn, pantryBtn];
-  hide(hideBreakfastPage);
-  view(showBreakfastPage);
+  hide(homeView);
+  hide(allRecipeBtn);
+  hide(savedRecipesView);
+  hide(recipePage);
+  hide(pantryView);
+  view(homeBtn);
+  view(filterPanel);
+  view(savedRecipeBtn);
+  view(pantryBtn);
   removeAllChildNodes(recipeTiles);
 
   recipeRepo.filterTag("breakfast");
@@ -188,10 +228,15 @@ function showBreakfast() {
 }
 
 function showLunch() {
-  const hideLunchPage = [homeView, allRecipeBtn, savedRecipesView, recipePage, pantryView]
-  const showLunchPage = [ homeBtn, filterPanel, pantryBtn, savedRecipeBtn];
-  hide(hideLunchPage);
-  view(showLunchPage);
+  hide(homeView);
+  hide(allRecipeBtn);
+  hide(savedRecipesView);
+  hide(recipePage);
+  hide(pantryView);
+  view(homeBtn);
+  view(filterPanel);
+  view(pantryBtn);
+  view(savedRecipeBtn);
   removeAllChildNodes(recipeTiles);
   recipeRepo.filterTag("lunch");
   var filteredRepo = recipeRepo.filtered.pop();
@@ -209,10 +254,15 @@ function showLunch() {
 }
 
 function showDinner() {
-  const showDinnerPage = [homeView, allRecipeBtn, pantryView, savedRecipesView, recipePage]
-  const hideDinnerPage = [homeBtn, filterPanel, pantryBtn, savedRecipeBtn]
-  view(showDinnerPage);
-  hide(hideDinnerPage);
+  hide(homeView);
+  hide(allRecipeBtn);
+  hide(pantryView);
+  hide(savedRecipesView);
+  hide(recipePage);
+  view(homeBtn);
+  view(filterPanel);
+  view(pantryBtn);
+  view(savedRecipeBtn);
   removeAllChildNodes(recipeTiles);
   recipeRepo.filterTag("dinner");
   var filteredRepo = recipeRepo.filtered.pop();
@@ -231,20 +281,30 @@ function showDinner() {
 
 // SHOW RECIPES
 function showAllRecipes() {
-  const showAllPage = [homeView, allRecipeBtn, savedRecipesView, recipePage, pantryView]
-  const hideAllPage = [homeBtn, filterPanel, pantryBtn, savedRecipeBtn]
-  hide(showAllPage);
-  view(hideAllPage);
+  hide(homeView);
+  hide(allRecipeBtn);
+  hide(savedRecipesView);
+  hide(recipePage);
+  hide(pantryView);
+  view(homeBtn);
+  view(filterPanel);
+  view(pantryBtn);
+  view(savedRecipeBtn);
   removeAllChildNodes(recipeTiles);
   addRecipeTiles(recipeRepo);
 }
 
 //SAVED RECIPE SCREEN
 function showSavedRecipes() {
-  const showSavedPage = [homeView, savedRecipeBtn, recipePage, pantryView]
-  const hideSavedPage = [savedRecipesView, homeBtn, filterPanel, allRecipeBtn, pantryBtn]
-  hide(showSavedPage);
-  view(hideSavedPage);
+  hide(homeView);
+  hide(savedRecipeBtn);
+  hide(recipePage);
+  hide(pantryView);
+  view(savedRecipesView);
+  view(homeBtn);
+  view(filterPanel);
+  view(allRecipeBtn);
+  view(pantryBtn);
   recipeTiles.innerHTML = "";
   user.toCook.forEach((recipeId) => {
     const matchedRecipe = recipeRepo.recipes.find((recipe) => {
@@ -265,6 +325,7 @@ function showSavedRecipes() {
 
 //PUTS RECIPE TILES ON ALLRECIPEPAGE & BUTTON FOR SAVEDRECIPEPAGE
 function addRecipeTiles(recipeRepo) {
+  console.log("repo", recipeRepo);
   recipeRepo.recipes.forEach((recipe) => {
     recipeTiles.innerHTML += `
     <section class="recipe-title">
@@ -279,10 +340,16 @@ function addRecipeTiles(recipeRepo) {
 
 // VIEW RECIPE CARD FOR SHOW RECIPE
 function viewRecipeDetails(event) {
-  const showDetails = [homeView, filterPanel, savedRecipesView, pantryView]
-  const hideDetails = [homeBtn, allRecipeBtn, pantryBtn, savedRecipeBtn, recipePage]
-  hide(showDetails);
-  view(hideDetails);
+  hide(homeView);
+  hide(filterPanel);
+  hide(savedRecipesView);
+  hide(pantryView);
+  view(homeBtn);
+  view(allRecipeBtn);
+  view(pantryBtn);
+  view(savedRecipeBtn);
+  view(recipePage);
+
   const targetRecipeId = parseInt(event.target.id);
   recipeRepo.recipes.forEach((recipe) => {
     if (recipe.id === targetRecipeId) {
@@ -302,9 +369,9 @@ function viewRecipeDetails(event) {
         </ol>
       </h4>
       <h4>${currentRecipe.getIngredientsDetails(
-        allIngredientsData
+        recipeRepo.recipes
       )}</h4>
-      <h4>${currentRecipe.getCost(allIngredientsData)}</h4>
+      <h4>${currentRecipe.getCost(recipeRepo.recipes)}</h4>
       <button class="favBtn" role="button" id="fav-${
         recipe.id
       }">Favorite</button>`;
@@ -315,16 +382,23 @@ function viewRecipeDetails(event) {
 
 // SHOW PANTRY ITEMS
 function showPantry() {
-  const showPantryPage = [homeView, pantryBtn, filterPanel, savedRecipesView];
-  const hidePantryPage = [pantryView, homeBtn, allRecipeBtn, savedRecipeBtn, recipePage];
-  hide(showPantryPage);
-  view(hidePantryPage);
+  hide(homeView);
+  hide(pantryBtn);
+  hide(filterPanel);
+  hide(savedRecipesView);
+  view(pantryView);
+  view(homeBtn);
+  view(allRecipeBtn);
+  view(savedRecipeBtn);
+  view(recipePage);
   removeAllChildNodes(recipePage);
   incrementPantryButtons();
 }
 let buttons = []
 function incrementPantryButtons() {
+  console.log("allIngredientsData", allIngredientsData);
   allIngredientsData.forEach((ingredient) => {
+    //console.log("ingredient", ingredient);
     ingredientBtns.innerHTML += `<section class="individual-ingredient-button">
     <div class="wrapper">
       <span class="minus">-</span>
@@ -360,6 +434,15 @@ function incrementPantryButtons() {
 //   </section>`;
 // });
 
+// recipeRepo.filterTag("breakfast");
+//   var filteredRepo = recipeRepo.filtered.pop();
+//   var filteredRecipes = filteredRepo.forEach((recipe) => {
+//     recipeTiles.innerHTML += `
+//       <section class="recipe-title">
+//       <input class="recipe-image" type="image" src="${recipe.image}" id="${recipe.id}"/>
+//       <h3>"${recipe.name}"</h3>
+//       <button class="favBtn" role="button" id="fav-${recipe.id}">Favorite</button>
+//       </section>`;
 
 //~~~~~~~~~~ FILTER FUNCTIONS ~~~~~~~~
 // CHECK BOXES
